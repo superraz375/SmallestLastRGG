@@ -38,27 +38,9 @@ void drawPlot() {
         avg += records[i].degree;
       }
       avg /= VERTEX_COUNT;
-      cs = new color[pMax + 1];
-      int num = 0;
-      for (int i = 0; i < 5; i++) {
-        for (int j = 0; j < 5; j++) {
-          for (int k = 0; k < 5; k++) {
-            cs[num] = color(255 - i * 51, 255 - j * 51, 255 - k * 51);
-            num++;
-            
-            
-            if (num == pMax + 1) {
-              break;
-            }
-          }
-          if (num == pMax + 1) {
-            break;
-          }
-        }
-        if (num == pMax + 1) {
-          break;
-        }
-      }
+      
+      generateColors(pMax + 1);
+      
       for (int i = 0; i <= pMax; i++) {
         int tempI = round(random(pMax + 0.1));
         color temp = cs[tempI];
@@ -132,4 +114,12 @@ void drawPlot() {
   text(records[VERTEX_COUNT / 4].point.key, p4 + 15, ht);
 
   text(0, 24, ph);
+}
+
+void generateColors(int total) {
+ cs = new color[total];
+ 
+ for(int i = 0; i < total; i++) {
+  cs[i] = COLORS[i % COLORS.length];
+ }
 }

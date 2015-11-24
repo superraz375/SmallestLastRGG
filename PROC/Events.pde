@@ -42,7 +42,7 @@ void keyPressed() {
     status = 1;
     pStatus = 1;
   } else if (key == 'c' || key == 'C') {
-    tBColor = false;
+    needsToUpdateBipartiteColorNodes = false;
     needsToUpdateColorNodes = true;
     status = 2;
   } else if ((key == 'o' || key == 'O') && rIndex < 0) {
@@ -76,13 +76,13 @@ void keyPressed() {
   } else if (key == 'w' || key == 'W') {
     if (finishedColoring) {
       if (all) {
-        tBColor = false;
+        needsToUpdateBipartiteColorNodes = false;
         needsToUpdateColorNodes = true;
         all = false;
         //cBools.remove(0);
         //cBools.add(0, true);
       } else {
-        tBColor = false;
+        needsToUpdateBipartiteColorNodes = false;
         needsToUpdateColorNodes = true;
         //cBools.remove(aPlace);
         //cBools.add(aPlace, false);
@@ -125,13 +125,13 @@ void keyPressed() {
       } else if (keyCode == UP) {
         if (!showColorAsBipartite) {
           needsToUpdateColorNodes = false;
-          tBColor = true;
+          needsToUpdateBipartiteColorNodes = true;
           showColorAsBipartite = true;
           aPlace = 0;
           bPlace = 1;
           cCount = 1;
         } else if (cCount < maximum * (maximum + 1) / 2) {
-          tBColor = true;
+          needsToUpdateBipartiteColorNodes = true;
           bPlace++;
           if (bPlace == maximum + 1) {
             bPlace = 0;
@@ -146,13 +146,13 @@ void keyPressed() {
       } else if (keyCode == DOWN) {
         if (!showColorAsBipartite) {
           needsToUpdateColorNodes = false;
-          tBColor = true;
+          needsToUpdateBipartiteColorNodes = true;
           showColorAsBipartite = true;
           aPlace = 0;
           bPlace = 1;
           cCount = 1;
         } else if (cCount > 1) {
-          tBColor = true;
+          needsToUpdateBipartiteColorNodes = true;
           bPlace--;
           while (bPlace <= aPlace) {
             bPlace--;

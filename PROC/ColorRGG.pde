@@ -30,36 +30,46 @@ void drawColoredRGG() {
   strokeWeight(4);
 
   if (!showColorAsBipartite) {
-    if (needsToUpdateColorNodes) {
-      
-      aList.clear();
-      if (!all) {
-        for (int i = 0; i <= maximum; i++) {
-          if (i == aPlace) {
-            aIndex = i;
-            break;
-          }
-        }
-      }
-      for (int i = 0; i < VERTEX_COUNT; i++) {
-        if (all || cs[aIndex] == records[i].point.c) {
-          stroke(records[i].point.c);
-          point(records[i].point, scaleFactor);
-          aList.add(records[i]);
-        }
-      }
-      needsToUpdateColorNodes = false;
+    drawAllColors();
+  } else {
+    drawBipartiteColors();
+  }
+}
+
+void drawBipartiteColors() {
+    if (needsToUpdateBipartiteColorNodes) {
+      calculateBipartiteColorNodes();
     } else {
+      drawLoadedBipartiteColorNodes();
+    } 
+}
+
+void drawLoadedBipartiteColorNodes() {
+   
       for (int i = 0; i < aList.size(); i++) {
         stroke(aList.get(i).point.c);
         point(aList.get(i).point, scaleFactor);
       }
-    }
-    stroke(strokeColor);
-  } else {
-    // SHOWING BIPARTITENESS
-    if (tBColor) {
-      aList.clear();
+      for (int i = 0; i < bList.size(); i++) {
+        stroke(bList.get(i).point.c);
+        point(bList.get(i).point, scaleFactor);
+      }
+      strokeWeight(1);
+      stroke(strokeColor);
+      for (int i = 0; i < conList.size(); i++) {
+        Point PointA = conList.get(i);
+        for (int j = 0; j < PointA.list.size(); j++) {
+          Point PointB = PointA.list.get(j);
+          
+          if (isHighlightEdges) {
+            line(PointA, PointB, scaleFactor);
+          }
+        }
+      } 
+}
+
+void calculateBipartiteColorNodes() {
+ aList.clear();
       bList.clear();
       int i;
       for (i = 0; i < maximum; i++) {
@@ -116,28 +126,34 @@ void drawColoredRGG() {
         }
       }
       calNumber(conList);
-      tBColor = false;
+      needsToUpdateBipartiteColorNodes = false; 
+}
+void drawAllColors() {
+ 
+    if (needsToUpdateColorNodes) {
+      
+      aList.clear();
+      if (!all) {
+        for (int i = 0; i <= maximum; i++) {
+          if (i == aPlace) {
+            aIndex = i;
+            break;
+          }
+        }
+      }
+      for (int i = 0; i < VERTEX_COUNT; i++) {
+        if (all || cs[aIndex] == records[i].point.c) {
+          stroke(records[i].point.c);
+          point(records[i].point, scaleFactor);
+          aList.add(records[i]);
+        }
+      }
+      needsToUpdateColorNodes = false;
     } else {
       for (int i = 0; i < aList.size(); i++) {
         stroke(aList.get(i).point.c);
         point(aList.get(i).point, scaleFactor);
       }
-      for (int i = 0; i < bList.size(); i++) {
-        stroke(bList.get(i).point.c);
-        point(bList.get(i).point, scaleFactor);
-      }
-      strokeWeight(1);
-      stroke(strokeColor);
-      for (int i = 0; i < conList.size(); i++) {
-        Point PointA = conList.get(i);
-        for (int j = 0; j < PointA.list.size(); j++) {
-          Point PointB = PointA.list.get(j);
-          
-          if (isHighlightEdges) {
-            line(PointA, PointB, scaleFactor);
-          }
-        }
-      }
     }
-  }
+    stroke(strokeColor); 
 }

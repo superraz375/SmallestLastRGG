@@ -27,7 +27,7 @@ float avg = 0, avgO = 0, avgW = 0, wAvg = 0, hd, rotX, rotY = 0, wMax = 0;
 
 boolean allow3DRotate = false;
 boolean all = true, finishedPlotting = false, finishedColoring = false, turnOP = true, turnWP = true, isProcessing = false, showEdges = false, highlightMinMaxDegreeNodes = false;
-boolean capture = false, isHighlightEdges = true, rot = true, showColorAsBipartite = false, needsToUpdateColorNodes = false, tBColor = false;
+boolean capture = false, isHighlightEdges = true, rot = true, showColorAsBipartite = false, needsToUpdateColorNodes = false, needsToUpdateBipartiteColorNodes = false;
 color strokeColor = color(250, 250, 0);
 
 Point[] graph = new Point[VERTEX_COUNT];
@@ -62,7 +62,7 @@ void clearData() {
   isProcessing = false;
   showColorAsBipartite = false;
   needsToUpdateColorNodes = false;
-  tBColor = false;
+  needsToUpdateBipartiteColorNodes = false;
   finishedColoring = false;
   finishedPlotting = false;
   strokeColor = color(250, 250, 0);

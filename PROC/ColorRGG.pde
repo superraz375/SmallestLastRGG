@@ -44,7 +44,7 @@ void drawBipartiteColors() {
 
 void drawLoadedBipartiteColorNodes() {
 
-  strokeWeight(5);
+  strokeWeight(nodeSize);
 
   for (int i = 0; i < aList.size(); i++) {
     stroke(aList.get(i).point.c);
@@ -62,7 +62,7 @@ void drawLoadedBipartiteColorNodes() {
       Point PointB = PointA.list.get(j);
 
       if (isHighlightEdges) {
-        strokeWeight(1);
+        strokeWeight(edgeWidth);
         line(PointA, PointB, scaleFactor);
       }
     }
@@ -88,7 +88,7 @@ void calculateBipartiteColorNodes() {
     }
   }
 
-  strokeWeight(5);
+  strokeWeight(nodeSize);
 
   for (int j = 0; j < VERTEX_COUNT; j++) {
     if (cs[aIndex] == records[j].point.c) {
@@ -111,14 +111,14 @@ void calculateBipartiteColorNodes() {
   }
   bipartiteEdgeNumber = 0;
   conList.clear();
-  strokeWeight(1);
+  strokeWeight(edgeWidth);
   stroke(strokeColor);
   for (int j = 0; j < aList.size(); j++) {
     Point pointA = aList.get(j).point;
     int tempE = bipartiteEdgeNumber;
     for (int k = 0; k < bList.size(); k++) {
       Point pointB = bList.get(k).point;
-      if (dist(pointA, pointB) < r * RGG_THRESHOLD) {
+      if (dist(pointA, pointB) < ADJUSTED_RGG_THRESHOLD_SQUARED) {
         bipartiteEdgeNumber++;
         pointA.list.add(pointB);
         pointB.list.add(pointA);
@@ -136,9 +136,9 @@ void calculateBipartiteColorNodes() {
 }
 void drawAllColors() {
 
-  strokeWeight(5);
+  strokeWeight(nodeSize);
   if (needsToUpdateColorNodes) {
-    calculatAllColorNodes();
+    calculateAllColorNodes();
   } else {
     drawLoadedAllColorNodes();
   }

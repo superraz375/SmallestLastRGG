@@ -1,6 +1,8 @@
-final int VERTEX_COUNT = 2000;
-final float RGG_THRESHOLD = 0.125;
-final int PROCESSING_INTERVAL = 50;
+import controlP5.*;
+
+int VERTEX_COUNT = 1000;
+float RGG_THRESHOLD = 0.125;
+int PROCESSING_INTERVAL = 10;
 
 final float MIN_SCALE = 0.20;
 final float MAX_SCALE = 5.0;
@@ -10,7 +12,7 @@ final int SPHERE = 1;
 final int DISK = 2;
 final int SQUARE = 3;
 
-int currentShape = SPHERE;
+int currentShape = DISK;
 int connectedVertexCount, edgeCount, bipartiteEdgeNumber;
 int component, maximum = 0, minimum = 0, minAmount, maxAmount;
 int pMax = 0, oMax = 0; // for plotting
@@ -21,8 +23,13 @@ int aPlace = 0, bPlace = 0;
 int status = 0, pStatus = 0;
 int cCount = 1;
 
+ControlP5 cp5;
+float edgeWidth = 1.0;
+float nodeSize = 4.0;
+
 float r;
 float scaleFactor;
+float ADJUSTED_RGG_THRESHOLD_SQUARED;
 float avg = 0, avgO = 0, avgW = 0, wAvg = 0, hd, rotX, rotY = 0, wMax = 0;
 
 boolean allow3DRotate = false;
@@ -125,17 +132,20 @@ void setup() {
   pixelDensity(2);
   r = (height - 120) / 2;
   scaleFactor = 1;
+  ADJUSTED_RGG_THRESHOLD_SQUARED = sq(RGG_THRESHOLD * r);
   frameRate(60);
   setupFont();
+  setupUI();
+  
   generateRGG();
 }
 
 void generateRGG() {
   if (currentShape == SPHERE) {
     generateSphereRGG();
-  } else if (currentShape == DISK) {
-    generateSquareRGG();
   } else if (currentShape == SQUARE) {
+    generateSquareRGG();
+  } else if (currentShape == DISK) {
     generateDiskRGG();
   }
 }
@@ -196,7 +206,7 @@ void connectRGGNodes() {
 
   for (int i = 0; i < VERTEX_COUNT; i++) {
     for (int j = i + 1; j < VERTEX_COUNT; j++) {
-      if (dist(graph[i], graph[j]) < r * RGG_THRESHOLD) {
+      if (dist(graph[i], graph[j]) < ADJUSTED_RGG_THRESHOLD_SQUARED) {
         graph[i].list.add(graph[j]);
         graph[j].list.add(graph[i]);
       }
@@ -217,13 +227,17 @@ void calculateDegrees() {
 
 void draw() {
 
+  pushMatrix();
   drawControlText();
 
   if (rIndex >= 0) {
+    
+    drawOutline();
     drawInitialRGG();
   } else if (status == 1) {
     drawPlot();
   } else if (status == 2 && finishedPlotting) {
+    drawOutline();
     drawColoredRGG();
   }
 
@@ -231,6 +245,7 @@ void draw() {
     saveFrame("sphere-######.png");
     capture = false;
   }
+  popMatrix();
 }
 
 Point randomSpherePoint(float radius, int key) {
@@ -311,5 +326,5 @@ void line(Point p1, Point p2, float scaleF) {
 }
 
 float dist(Point p1, Point p2) {
-  return dist(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+  return sq(p2.x - p1.x) + sq(p2.y - p1.y) + sq(p2.z - p1.z);
 }

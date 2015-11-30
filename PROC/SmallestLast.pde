@@ -21,10 +21,10 @@ void drawInitialRGG() {
       for (int j = 0; j < num; j++) {
         Point pointA = degreeList[i].get(j);
 
-        strokeWeight(4);
+        strokeWeight(nodeSize);
         point(pointA, scaleFactor);
 
-        strokeWeight(1);
+        strokeWeight(edgeWidth);
         for (int k = 0; k < i; k++) {
           Point pointB = pointA.list.get(k);
           if (pointA.key < pointB.key) {
@@ -66,9 +66,9 @@ void markMinDegreeNodes() {
   for (int j = 0; j < degreeList[minimum].size(); j++) {
     Point pointA = degreeList[minimum].get(j);
     stroke(0, 255, 0);
-    strokeWeight(4);
+    strokeWeight(nodeSize);
     point(pointA, scaleFactor);
-    strokeWeight(1);
+    strokeWeight(edgeWidth);
     for (int k = 0; k < minimum; k++) {
       Point pointB = pointA.list.get(k);
       if (isHighlightEdges) {
@@ -86,9 +86,9 @@ void markMaxDegreeNodes() {
     for (int j = 0; j < degreeList[maximum].size(); j++) {
       Point pointA = degreeList[maximum].get(j);
       stroke(255, 0, 255);
-      strokeWeight(4);
+      strokeWeight(nodeSize);
       point(pointA, scaleFactor);
-      strokeWeight(1);
+      strokeWeight(edgeWidth);
       for (int k = 0; k < maximum; k++) {
         Point pointB = pointA.list.get(k);
         if (isHighlightEdges) {
@@ -135,4 +135,21 @@ void performSmallestLastOrdering() {
       maximum--;
     }
   }
+}
+
+// Draw an outline for each graph
+void drawOutline() {
+  
+  strokeWeight(5);
+  
+  if(currentShape == SQUARE) {
+    rectMode(RADIUS);
+    fill(0);
+    rect(width/2, height / 2,r*scaleFactor+5,r*scaleFactor+5);
+  } else if (currentShape == DISK) {
+    ellipseMode(RADIUS);
+    fill(0);
+    ellipse(width/2,height / 2,r*scaleFactor+5,r*scaleFactor+5);
+  } 
+  strokeWeight(1);
 }

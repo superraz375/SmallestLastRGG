@@ -6,7 +6,7 @@ void drawStage1Text() {
   text("Progress: " + (100 - (rIndex + 1.0) / VERTEX_COUNT * 100) + "%", 15, h+=20);
   text("Vertex count: " + (rIndex + 1), 15, h+=20);
   text("Edge count: " + (edgeCount), 15, h+=20);
-  text("Average Degree: " + (graphAverageDegree), 15, h+=20);
+  text("Average Degree: " + nf(graphAverageDegree,0,2), 15, h+=20);
   
   text("Rotate: " + (rot && allow3DRotate ? "ON" : "OFF"), 15, h+=20);
   text("Processing: " + (isProcessing ? "ON" : "OFF"), 15, h+=20);

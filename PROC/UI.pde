@@ -66,10 +66,7 @@ class VertexCountListener implements ControlListener {
 class ThresholdListener implements ControlListener {
   public void controlEvent(ControlEvent theEvent) {
     
-    if(!USE_RGG_THRESHOLD) {
-     // Calcaulte RGG_THRESHOLD using formulas 
-    }
-    ADJUSTED_RGG_THRESHOLD_SQUARED = sq(RGG_THRESHOLD * r);
+    updateRggThreshold();
     clearData();
     generateRGG();
   }

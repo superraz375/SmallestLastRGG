@@ -131,7 +131,9 @@ void calculateBipartiteColorNodes() {
       conList.add(pointA);
     }
   }
-  calNumber(conList);
+  
+  calculateComponents(conList);
+  
   needsToUpdateBipartiteColorNodes = false;
 }
 void drawAllColors() {

@@ -12,6 +12,7 @@ void drawInitialRGG() {
   edgeCount = 0;
   wAvg = 0;
 
+
   for (int i = 0; i <= maximum; i++) {
     if (degreeList[i].isEmpty()) {
       continue;
@@ -38,8 +39,8 @@ void drawInitialRGG() {
       }
     }
   }
-
-  minimum = 0;
+  
+  minimum = 0; //<>//
 
   if (highlightMinMaxDegreeNodes) {
     showEdges = false;

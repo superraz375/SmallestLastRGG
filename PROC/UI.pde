@@ -1,3 +1,8 @@
+
+
+VertexCountListener vertexCountListener;
+ThresholdListener thresholdListener;
+
 void setupUI() {
  cp5 = new ControlP5(this);
  cp5.addSlider("edgeWidth")
@@ -14,18 +19,58 @@ cp5.addSlider("PROCESSING_INTERVAL")
 .setPosition(20,340)
 .setRange(1,200)
 ;
+
+cp5.addSlider("VERTEX_COUNT")
+.setPosition(20,360)
+.setRange(1,50000)
+;
+
+cp5.addSlider("RGG_THRESHOLD")
+.setPosition(20,380)
+.setRange(0.01,0.5)
+;
+
+cp5.addSlider("AVERAGE_DEGREE")
+.setPosition(20,400)
+.setRange(1,50)
+;
+
+
+cp5.addToggle("USE_RGG_THRESHOLD")
+     .setPosition(20,420)
+     .setSize(50,20)
+     .setValue(true)
+     .setMode(ControlP5.SWITCH)
+     ;
+
+
+vertexCountListener = new VertexCountListener();
+thresholdListener = new ThresholdListener();
+
+cp5.getController("VERTEX_COUNT").addListener(vertexCountListener);
+cp5.getController("RGG_THRESHOLD").addListener(thresholdListener);
+cp5.getController("USE_RGG_THRESHOLD").addListener(thresholdListener);
+cp5.getController("AVERAGE_DEGREE").addListener(thresholdListener);
+
+  
 }
-void controlEvent(ControlEvent theEvent) {
-  if(theEvent.isAssignableFrom(Textfield.class)) {
-    println("controlEvent: accessing a string from controller '"
-            +theEvent.getName()+"': "
-            +theEvent.getStringValue()
-            );
+
+
+class VertexCountListener implements ControlListener {
+  public void controlEvent(ControlEvent theEvent) {
+    clearData();
+    generateRGG();
   }
 }
 
-
-public void input(String theText) {
-  // automatically receives results from controller input
-  println("a textfield event for controller 'input' : "+theText);
+class ThresholdListener implements ControlListener {
+  public void controlEvent(ControlEvent theEvent) {
+    
+    if(!USE_RGG_THRESHOLD) {
+     // Calcaulte RGG_THRESHOLD using formulas 
+    }
+    ADJUSTED_RGG_THRESHOLD_SQUARED = sq(RGG_THRESHOLD * r);
+    clearData();
+    generateRGG();
+  }
 }

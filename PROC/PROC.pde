@@ -1,8 +1,10 @@
 import controlP5.*;
 
-int VERTEX_COUNT = 1000;
+int VERTEX_COUNT = 4000;
 float RGG_THRESHOLD = 0.125;
+int AVERAGE_DEGREE = 30;
 int PROCESSING_INTERVAL = 10;
+boolean USE_RGG_THRESHOLD = true;
 
 final float MIN_SCALE = 0.20;
 final float MAX_SCALE = 5.0;
@@ -31,6 +33,7 @@ float r;
 float scaleFactor;
 float ADJUSTED_RGG_THRESHOLD_SQUARED;
 float avg = 0, avgO = 0, avgW = 0, wAvg = 0, hd, rotX, rotY = 0, wMax = 0;
+float graphAverageDegree = 0;
 
 boolean allow3DRotate = false;
 boolean all = true, finishedPlotting = false, finishedColoring = false, turnOP = true;
@@ -107,6 +110,7 @@ void clearData() {
   avgW = 0;
   wAvg = 0;
   wMax = 0;
+ 
   isProcessing = false;
   showColorAsBipartite = false;
   needsToUpdateColorNodes = false;
@@ -126,8 +130,8 @@ void clearData() {
 // Setup the program for running
 void setup() {
 
-  fullScreen(P3D);
-  //size(600, 600, P3D);
+  //fullScreen(P3D);
+  size(1500, 1000, P3D);
   
   pixelDensity(2);
   r = (height - 120) / 2;
@@ -216,13 +220,20 @@ void connectRGGNodes() {
 
 // Calculate degrees for each node as well as the maximum degree found
 void calculateDegrees() {
+  
+  int total = 0;
+  
   for (int i = 0; i < VERTEX_COUNT; i++) {
     if (graph[i].list.size() > maximum) {
       maximum = graph[i].list.size();
     }
     degreeList[graph[i].list.size()].add(graph[i]);
     graph[i].degree = graph[i].list.size();
+    
+    total += graph[i].degree;
   }
+  
+    graphAverageDegree = total / VERTEX_COUNT;;
 }
 
 void draw() {

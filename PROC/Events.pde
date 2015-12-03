@@ -6,10 +6,11 @@ void mouseWheel(MouseEvent event) {
   if (scaleFactor > MAX_SCALE) scaleFactor = MAX_SCALE;
 }
 
-void mouseControl() {
+void handleMouseEvents() {
   if(!allow3DRotate) {
     return;
   }
+  
   rotateX(rotX);
   rotateY(rotY);
   
@@ -28,32 +29,34 @@ void mouseControl() {
 void keyPressed() {
   if (key == '1') {
     clearData();
-    currentShape = SPHERE;
+    currentShape = GraphShape.SPHERE;
     generateRGG();
   } else if (key == '2') {
     clearData();
-    currentShape = DISK;
+    currentShape = GraphShape.DISK;
     generateRGG();
   } else if (key == '3') {
     clearData();
-    currentShape = SQUARE;
+    currentShape = GraphShape.SQUARE;
     generateRGG();
   } else if ((key == 'p' || key == 'P') && rIndex < 0) {
-    status = 1;
-    pStatus = 1;
+    // PLOT
+    currentStatus = GraphStage.PLOT;
+    currentPlotType = PlotType.REMAINING_DEGREE;
   } else if (key == 'c' || key == 'C') {
     needsToUpdateBipartiteColorNodes = false;
     needsToUpdateColorNodes = true;
-    status = 2;
+    currentStatus = GraphStage.COLOR_GRAPH;
   } else if ((key == 'o' || key == 'O') && rIndex < 0) {
-    status = 1;
-    pStatus = 0;
+    // PLOT
+    currentStatus = GraphStage.PLOT;
+    currentPlotType = PlotType.ORIGINAL_DEGREE;
   } else if ((key == 'v' || key == 'V') && rIndex < 0) {
-    status = 1;
-    pStatus = 2;
+    currentStatus = GraphStage.PLOT;
+    currentPlotType = PlotType.AVERAGE_DEGREE;
   } else if ((key == 'a' || key == 'A') && rIndex < 0) {
-    status = 1;
-    pStatus = 3;
+    currentStatus = GraphStage.PLOT;
+    currentPlotType = PlotType.ALL;
   } else if (key == 'l' || key == 'L') {
     if (rIndex >= 0 && highlightMinMaxDegreeNodes) {
       isHighlightEdges = !isHighlightEdges;
@@ -79,17 +82,9 @@ void keyPressed() {
         needsToUpdateBipartiteColorNodes = false;
         needsToUpdateColorNodes = true;
         all = false;
-        //cBools.remove(0);
-        //cBools.add(0, true);
       } else {
         needsToUpdateBipartiteColorNodes = false;
         needsToUpdateColorNodes = true;
-        //cBools.remove(aPlace);
-        //cBools.add(aPlace, false);
-        //cBools.remove(bPlace);
-        //cBools.add(bPlace, false);
-        //cBools.remove(0);
-        //cBools.add(0, true);
         showColorAsBipartite = false;
         aPlace = 0;
         bPlace = 0;

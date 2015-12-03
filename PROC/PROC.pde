@@ -10,11 +10,14 @@ final float MIN_SCALE = 0.20;
 final float MAX_SCALE = 5.0;
 final float ROTATION_DELTA = 0.002;
 
-final int SPHERE = 1;
-final int DISK = 2;
-final int SQUARE = 3;
+final int INITIAL_GRAPH_STATUS = 0;
+final int PLOT_STATUS = 1;
+final int COLOR_GRPAH_STATUS = 2;
 
-int currentShape = DISK;
+GraphShape currentShape = GraphShape.DISK;
+GraphStage currentStatus = GraphStage.INITIAL_GRAPH;
+PlotType currentPlotType = PlotType.NONE;
+
 int connectedVertexCount, edgeCount, bipartiteEdgeNumber;
 int component, maximum = 0, minimum = 0, minAmount, maxAmount;
 int pMax = 0, oMax = 0; // for plotting
@@ -22,7 +25,7 @@ int rIndex = VERTEX_COUNT - 1;
 int aIndex = -1;
 int bIndex = -1;
 int aPlace = 0, bPlace = 0;
-int status = 0, pStatus = 0;
+
 int cCount = 1;
 
 ControlP5 cp5;
@@ -100,8 +103,8 @@ void clearData() {
   rIndex = VERTEX_COUNT - 1;
   aIndex = -1;
   bIndex = -1;
-  status = 0;
-  pStatus = 0;
+  currentStatus = GraphStage.INITIAL_GRAPH;
+  currentPlotType = PlotType.NONE;
   aPlace = 0;
   bPlace = 0;
   cCount = 1;

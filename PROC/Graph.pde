@@ -2,12 +2,16 @@ void generateRGG() {
   
   updateRggThreshold();
   
-  if (currentShape == SPHERE) {
-    generateSphereRGG();
-  } else if (currentShape == SQUARE) {
-    generateSquareRGG();
-  } else if (currentShape == DISK) {
-    generateDiskRGG();
+  switch(currentShape) {
+   case SPHERE:
+       generateSphereRGG();
+     break;
+   case DISK:
+     generateDiskRGG();
+     break;
+   case SQUARE:
+     generateSquareRGG();
+     break;
   }
 }
 void generateSphereRGG() {
@@ -98,22 +102,28 @@ void draw() {
   pushMatrix();
   drawControlText();
 
-  if (rIndex >= 0) {
-    
+  if (currentStatus == GraphStage.INITIAL_GRAPH && rIndex >= 0) {    
     drawOutline();
     drawInitialRGG();
-  } else if (status == 1) {
+  } else if (currentStatus == GraphStage.PLOT) {
     drawPlot();
-  } else if (status == 2 && finishedPlotting) {
+  } else if (currentStatus == GraphStage.COLOR_GRAPH && finishedPlotting) {
     drawOutline();
     drawColoredRGG();
   }
 
   if (capture) {
-    saveFrame("sphere-######.png");
-    capture = false;
+    captureScreenshot();
   }
+  
   popMatrix();
+}
+
+void captureScreenshot() {
+  
+  
+ saveFrame("Graph-######.png");
+    capture = false; 
 }
 
 Point randomSpherePoint(float radius, int key) {
@@ -184,18 +194,52 @@ void calculateComponents(ArrayList < Point > list) {
 }
 
 void calculateRggThresholdByAverageDegree() {
-  if(currentShape == DISK) {
-   float area = AVERAGE_DEGREE+1;
+  
+  
+  switch(currentShape) {
+   case SPHERE:
+   {
+       float area = 4*(AVERAGE_DEGREE+1);
+       area /= VERTEX_COUNT;
+       RGG_THRESHOLD = (float) Math.sqrt(area);
+       break;
+   }
+   case DISK:
+   {
+     float area = AVERAGE_DEGREE+1;
    area /= VERTEX_COUNT;
    RGG_THRESHOLD = (float) Math.sqrt(area);
- } else if (currentShape == SQUARE) {
-   RGG_THRESHOLD = (float) Math.sqrt(4*(AVERAGE_DEGREE+1)/(VERTEX_COUNT*Math.PI));
- } else if (currentShape == SPHERE) {
-   float area = 4*(AVERAGE_DEGREE+1);
-   area /= VERTEX_COUNT;
-   RGG_THRESHOLD = (float) Math.sqrt(area);
- }
+     break;
+   }
+   case SQUARE:
+     RGG_THRESHOLD = (float) Math.sqrt(4*(AVERAGE_DEGREE+1)/(VERTEX_COUNT*Math.PI));
+     break;
+  }
 }
+
+// Draw an outline for each graph
+void drawOutline() {
+  
+  strokeWeight(5);
+  
+  switch(currentShape) {
+   case DISK:
+     ellipseMode(RADIUS);
+    fill(0);
+    ellipse(width/2,height / 2,r*scaleFactor+5,r*scaleFactor+5);
+     break;
+   case SQUARE:
+     rectMode(RADIUS);
+    fill(0);
+    rect(width/2, height / 2,r*scaleFactor+5,r*scaleFactor+5);
+     break;
+     case SPHERE:
+     break;
+  }
+  
+  strokeWeight(1);
+}
+
 void updateRggThreshold() {
   if(!USE_RGG_THRESHOLD) {
     calculateRggThresholdByAverageDegree();

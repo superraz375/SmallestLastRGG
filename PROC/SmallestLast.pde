@@ -8,17 +8,39 @@ void drawInitialRGG() {
   textAlign(RIGHT);
   translate(width/2, height / 2);
   strokeWeight(1);
-  mouseControl();
+  
+  handleMouseEvents();
+ 
   edgeCount = 0;
   wAvg = 0;
 
+  
+  drawPointsAndEdgesByDegree();
+  
+  minimum = 0; //<>//
 
-  for (int i = 0; i <= maximum; i++) {
+  if (highlightMinMaxDegreeNodes) {
+    showEdges = false;
+    markMinDegreeNodes();
+    markMaxDegreeNodes();
+    stroke(strokeColor);
+  }
+
+  // Do the next SMALLEST LAST ORDERING removal step
+  if (isProcessing) {
+    performSmallestLastOrdering();
+  }
+}
+
+void drawPointsAndEdgesByDegree() {
+ for (int i = 0; i <= maximum; i++) {
     if (degreeList[i].isEmpty()) {
       continue;
     } else {
+  
       int num = degreeList[i].size();
       wAvg += num * i;
+      
       for (int j = 0; j < num; j++) {
         Point pointA = degreeList[i].get(j);
 
@@ -38,24 +60,9 @@ void drawInitialRGG() {
         }
       }
     }
-  }
+  } 
   
-  minimum = 0; //<>//
-
-  if (highlightMinMaxDegreeNodes) {
-    showEdges = false;
-    markMinDegreeNodes();
-    markMaxDegreeNodes();
-    stroke(strokeColor);
-  }
-
-
-  // Do the next SMALLEST LAST ORDERING removal step
-  if (isProcessing) {
-    performSmallestLastOrdering();
-  }
 }
-
 
 void markMinDegreeNodes() {
   // Calculate minimum degree index
@@ -136,21 +143,4 @@ void performSmallestLastOrdering() {
       maximum--;
     }
   }
-}
-
-// Draw an outline for each graph
-void drawOutline() {
-  
-  strokeWeight(5);
-  
-  if(currentShape == SQUARE) {
-    rectMode(RADIUS);
-    fill(0);
-    rect(width/2, height / 2,r*scaleFactor+5,r*scaleFactor+5);
-  } else if (currentShape == DISK) {
-    ellipseMode(RADIUS);
-    fill(0);
-    ellipse(width/2,height / 2,r*scaleFactor+5,r*scaleFactor+5);
-  } 
-  strokeWeight(1);
 }

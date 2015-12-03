@@ -32,7 +32,7 @@ void drawControlText() {
   textAlign(LEFT);
   int h = 0;
   int w = width - 240;
-  text("Smallest Last Ordering", w, h+=20);
+  text("Smallest Last Ordering: " + currentShape, w, h+=20);
   fill(255);
   h+= 20;
   
@@ -43,15 +43,28 @@ void drawControlText() {
   
   h += 20;
   text("Controls:", w, h+= 20);
-  text("Key 'R': Rotate/Not", w, h+= 20);
+  
+  if(currentShape == GraphShape.SPHERE) {
+    text("Key 'R': Rotate/Not", w, h+= 20);
+  }
   text("Key 'S': Start/pause", w, h+= 20);
-  text("Key 'P': Plot remain degree",w, h+= 20);
+  text("Key 'L': Show/Not edges", w, h+= 20);
+  text("Key 'H': Highlight/Not degree", w, h+= 20);
+  
+  h += 20;
+  
+  text("Key 'P': Plot remaining degree",w, h+= 20);
   text("Key 'O': Plot original degree", w, h+= 20);
   text("Key 'V': Plot average degree", w, h+= 20);
+  text("Key 'A': Show all plots", w, h+= 20);
+  
+  h += 20;
+  
   text("Key 'C': Color vertices", w, h+= 20);
-  text("Key 'L': Show/Not edges", w, h+= 20);
   text("Key 'W': Color All/Single", w, h+= 20);
-  text("Key 'H': Highlight/Not degree", w, h+= 20);
+  
+  h += 20;
+  
   text("Key 'X': Sceenshot", w, h+= 20);
 }
 

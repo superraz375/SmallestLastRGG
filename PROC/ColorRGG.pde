@@ -21,7 +21,7 @@ void drawColoredRGG() {
   drawColoredRGGText();
   textAlign(RIGHT);
   translate(width / 2, height / 2);
-  mouseControl();
+  handleMouseEvents();
 
   if (!finishedColoring) {
     colorNodes();

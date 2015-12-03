@@ -5,39 +5,42 @@ ThresholdListener thresholdListener;
 
 void setupUI() {
   cp5 = new ControlP5(this);
+  
+  int h = 320;
+  
   cp5.addSlider("edgeWidth")
-    .setPosition(20, 300)
+    .setPosition(20, h += 20)
     .setRange(0.25, 3)
     ;
 
   cp5.addSlider("nodeSize")
-    .setPosition(20, 320)
+    .setPosition(20, h += 20)
     .setRange(2, 15)
     ;
 
   cp5.addSlider("PROCESSING_INTERVAL")
-    .setPosition(20, 340)
+    .setPosition(20, h += 20)
     .setRange(1, 200)
     ;
 
   cp5.addSlider("VERTEX_COUNT")
-    .setPosition(20, 360)
+    .setPosition(20, h += 20)
     .setRange(1, 50000)
     ;
 
   cp5.addSlider("RGG_THRESHOLD")
-    .setPosition(20, 380)
+    .setPosition(20, h += 20)
     .setRange(0.01, 0.5)
     ;
 
   cp5.addSlider("AVERAGE_DEGREE")
-    .setPosition(20, 400)
+    .setPosition(20, h += 20)
     .setRange(1, 50)
     ;
 
 
   cp5.addToggle("USE_RGG_THRESHOLD")
-    .setPosition(20, 420)
+    .setPosition(20, h += 20)
     .setSize(50, 20)
     .setValue(true)
     .setMode(ControlP5.SWITCH)

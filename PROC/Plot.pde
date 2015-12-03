@@ -60,6 +60,7 @@ void drawPlotBorder() {
 }
 
 void plotOriginalDegree() {
+  
   if (turnOP) {
     for (int i = 0; i < VERTEX_COUNT; i++) {
       if (records[i].point.degree > oMax) {
@@ -71,21 +72,25 @@ void plotOriginalDegree() {
       avgO /= VERTEX_COUNT;
     }
   }
+ 
   turnOP = false;
   stroke(255, 0, 255);
   strokeWeight(2);
   line(25, hp - avgO * hd, 30, hp - avgO * hd);
   line(25, hp - oMax * hd, 30, hp - oMax * hd);
   strokeWeight(1);
+  
   for (int i = 0; i < VERTEX_COUNT - 1; i++) {
     line(30 + i * wd, hp - hd * records[i].point.degree, 30 + (i + 1) * wd, hp - hd * records[i + 1].point.degree);
   }
+  
   fill(255, 0, 255);
   text(oMax, 24, 35);
   text(round(avgO), 24, ph - avgO * hd);
 }
 
 void plotRemainingDegree() {
+ 
   if (!turnOP) {
     if (!finishedPlotting) {
       for (int i = 0; i < VERTEX_COUNT; i++) {
@@ -112,17 +117,21 @@ void plotRemainingDegree() {
     line(25, hp - avg * hd, 30, hp - avg * hd);
     line(25, hp - pMax * hd, 30, hp - pMax * hd);
     strokeWeight(1);
+    
     for (int i = 0; i < VERTEX_COUNT - 1; i++) {
       line(30 + i * wd, hp - hd * records[i].degree, 30 + (i + 1) * wd, hp - hd * records[i + 1].degree);
     }
+    
     fill(0, 255, 0);
     text(pMax, 24, ph - pMax * hd);
   }
 }
 
 void plotAverageDegree() {
+ 
   if (turnWP) {
     for (int i = 0; i < VERTEX_COUNT; i++) {
+     
       if (records[i].avgDegree > wMax) {
         wMax = records[i].avgDegree;
       }
@@ -132,14 +141,17 @@ void plotAverageDegree() {
       turnWP = false;
     }
   }
+  
   stroke(0, 0, 255);
   strokeWeight(2);
   line(25, hp - avgW * hd, 30, hp - avgW * hd);
   line(25, hp - wMax * hd, 30, hp - wMax * hd);
   strokeWeight(3);
+ 
   for (int i = 0; i < VERTEX_COUNT - 1; i++) {
     line(30 + i * wd, hp - hd * records[i].avgDegree, 30 + (i + 1) * wd, hp - hd * records[i + 1].avgDegree);
   }
+  
   fill(0, 0, 255);
   text(round(wMax), 24, ph - wMax * hd);
 }

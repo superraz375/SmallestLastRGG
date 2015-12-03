@@ -1,4 +1,4 @@
-
+ //<>//
 // Draw Initial RGG
 // Perform Smallest Last Ordering
 void drawInitialRGG() {
@@ -8,16 +8,16 @@ void drawInitialRGG() {
   textAlign(RIGHT);
   translate(width/2, height / 2);
   strokeWeight(1);
-  
+
   handleMouseEvents();
- 
+
   edgeCount = 0;
   wAvg = 0;
 
-  
+
   drawPointsAndEdgesByDegree();
-  
-  minimum = 0; //<>//
+
+  minimum = 0;
 
   if (highlightMinMaxDegreeNodes) {
     showEdges = false;
@@ -33,14 +33,14 @@ void drawInitialRGG() {
 }
 
 void drawPointsAndEdgesByDegree() {
- for (int i = 0; i <= maximum; i++) {
+  for (int i = 0; i <= maximum; i++) {
     if (degreeList[i].isEmpty()) {
       continue;
     } else {
-  
+
       int num = degreeList[i].size();
       wAvg += num * i;
-      
+
       for (int j = 0; j < num; j++) {
         Point pointA = degreeList[i].get(j);
 
@@ -60,8 +60,7 @@ void drawPointsAndEdgesByDegree() {
         }
       }
     }
-  } 
-  
+  }
 }
 
 void markMinDegreeNodes() {

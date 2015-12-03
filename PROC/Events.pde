@@ -7,18 +7,18 @@ void mouseWheel(MouseEvent event) {
 }
 
 void handleMouseEvents() {
-  if(!allow3DRotate) {
+  if (!allow3DRotate) {
     return;
   }
-  
+
   rotateX(rotX);
   rotateY(rotY);
-  
+
   if (mousePressed) {
     rotY += (pmouseX - mouseX) * -1 * ROTATION_DELTA;
     rotX += (pmouseY - mouseY) * ROTATION_DELTA;
   }
-  
+
   // Rotate along Y axis
   if (rot) {
     rotY += ROTATION_DELTA;
@@ -95,25 +95,25 @@ void keyPressed() {
   } else if (key == CODED) {
     if (!all) {
       if (keyCode == RIGHT) {
-        if(showColorAsBipartite) {
-        showColorAsBipartite = false;
-        needsToUpdateColorNodes = true;
-        aPlace = 0;
-        bPlace = 1;
+        if (showColorAsBipartite) {
+          showColorAsBipartite = false;
+          needsToUpdateColorNodes = true;
+          aPlace = 0;
+          bPlace = 1;
         } else {
           aPlace = (aPlace + 1) % (maximum + 1);
           needsToUpdateColorNodes = true;
         }
       } else if (keyCode == LEFT) {
-        if(showColorAsBipartite) {
-        showColorAsBipartite = false;
-        needsToUpdateColorNodes = true;
-        aPlace = 0;
-        bPlace = 1;
+        if (showColorAsBipartite) {
+          showColorAsBipartite = false;
+          needsToUpdateColorNodes = true;
+          aPlace = 0;
+          bPlace = 1;
         } else {
           aPlace--;
-          if(aPlace < 0) {
-           aPlace = maximum; 
+          if (aPlace < 0) {
+            aPlace = maximum;
           }
           needsToUpdateColorNodes = true;
         }

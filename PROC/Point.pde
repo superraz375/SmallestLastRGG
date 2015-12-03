@@ -4,7 +4,7 @@ class Point {
   boolean visited;
   color c;
   ArrayList < Point > list;
-  
+
   Point(int key, float x, float y, float z) {
     this.key = key;
     this.x = x;

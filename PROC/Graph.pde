@@ -1,17 +1,17 @@
 void generateRGG() {
-  
+
   updateRggThreshold();
-  
+
   switch(currentShape) {
-   case SPHERE:
-       generateSphereRGG();
-     break;
-   case DISK:
-     generateDiskRGG();
-     break;
-   case SQUARE:
-     generateSquareRGG();
-     break;
+  case SPHERE:
+    generateSphereRGG();
+    break;
+  case DISK:
+    generateDiskRGG();
+    break;
+  case SQUARE:
+    generateSquareRGG();
+    break;
   }
 }
 void generateSphereRGG() {
@@ -81,20 +81,20 @@ void connectRGGNodes() {
 
 // Calculate degrees for each node as well as the maximum degree found
 void calculateDegrees() {
-  
+
   int total = 0;
-  
+
   for (int i = 0; i < VERTEX_COUNT; i++) {
     if (graph[i].list.size() > maximum) {
       maximum = graph[i].list.size();
     }
     degreeList[graph[i].list.size()].add(graph[i]);
     graph[i].degree = graph[i].list.size();
-    
+
     total += graph[i].degree;
   }
-  
-    graphAverageDegree = (float)total / VERTEX_COUNT;
+
+  graphAverageDegree = (float)total / VERTEX_COUNT;
 }
 
 void draw() {
@@ -115,15 +115,15 @@ void draw() {
   if (capture) {
     captureScreenshot();
   }
-  
+
   popMatrix();
 }
 
 void captureScreenshot() {
-  
-  
- saveFrame("Graph-######.png");
-    capture = false; 
+
+
+  saveFrame("Graph-######.png");
+  capture = false;
 }
 
 Point randomSpherePoint(float radius, int key) {
@@ -194,57 +194,57 @@ void calculateComponents(ArrayList < Point > list) {
 }
 
 void calculateRggThresholdByAverageDegree() {
-  
-  
+
+
   switch(currentShape) {
-   case SPHERE:
-   {
-       float area = 4*(AVERAGE_DEGREE+1);
-       area /= VERTEX_COUNT;
-       RGG_THRESHOLD = (float) Math.sqrt(area);
-       break;
-   }
-   case DISK:
-   {
-     float area = AVERAGE_DEGREE+1;
-   area /= VERTEX_COUNT;
-   RGG_THRESHOLD = (float) Math.sqrt(area);
-     break;
-   }
-   case SQUARE:
-     RGG_THRESHOLD = (float) Math.sqrt(4*(AVERAGE_DEGREE+1)/(VERTEX_COUNT*Math.PI));
-     break;
+  case SPHERE:
+    {
+      float area = 4*(AVERAGE_DEGREE+1);
+      area /= VERTEX_COUNT;
+      RGG_THRESHOLD = (float) Math.sqrt(area);
+      break;
+    }
+  case DISK:
+    {
+      float area = AVERAGE_DEGREE+1;
+      area /= VERTEX_COUNT;
+      RGG_THRESHOLD = (float) Math.sqrt(area);
+      break;
+    }
+  case SQUARE:
+    RGG_THRESHOLD = (float) Math.sqrt(4*(AVERAGE_DEGREE+1)/(VERTEX_COUNT*Math.PI));
+    break;
   }
 }
 
 // Draw an outline for each graph
 void drawOutline() {
-  
+
   strokeWeight(5);
-  
+
   switch(currentShape) {
-   case DISK:
-     ellipseMode(RADIUS);
+  case DISK:
+    ellipseMode(RADIUS);
     fill(0);
-    ellipse(width/2,height / 2,r*scaleFactor+5,r*scaleFactor+5);
-     break;
-   case SQUARE:
-     rectMode(RADIUS);
+    ellipse(width/2, height / 2, r*scaleFactor+5, r*scaleFactor+5);
+    break;
+  case SQUARE:
+    rectMode(RADIUS);
     fill(0);
-    rect(width/2, height / 2,r*scaleFactor+5,r*scaleFactor+5);
-     break;
-     case SPHERE:
-     break;
+    rect(width/2, height / 2, r*scaleFactor+5, r*scaleFactor+5);
+    break;
+  case SPHERE:
+    break;
   }
-  
+
   strokeWeight(1);
 }
 
 void updateRggThreshold() {
-  if(!USE_RGG_THRESHOLD) {
+  if (!USE_RGG_THRESHOLD) {
     calculateRggThresholdByAverageDegree();
   }
-  ADJUSTED_RGG_THRESHOLD_SQUARED = sq(RGG_THRESHOLD * r); 
+  ADJUSTED_RGG_THRESHOLD_SQUARED = sq(RGG_THRESHOLD * r);
 }
 
 void point(Point p, float scaleF) {

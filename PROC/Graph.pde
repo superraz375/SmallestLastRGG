@@ -122,7 +122,7 @@ void draw() {
 void captureScreenshot() {
 
 
-  saveFrame("Graph-######.png");
+  saveFrame(currentShape + "-######.png");
   capture = false;
 }
 

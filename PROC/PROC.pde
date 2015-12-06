@@ -1,6 +1,7 @@
 import controlP5.*;
+import java.util.Arrays;
 
-int VERTEX_COUNT = 4000;
+int VERTEX_COUNT = 3000;
 float RGG_THRESHOLD = 0.125;
 int AVERAGE_DEGREE = 30;
 int PROCESSING_INTERVAL = 10;
@@ -106,6 +107,7 @@ void setup() {
   frameRate(FRAME_RATE);
   setupFont();
   setupUI();
+  clearData();
 
   generateRGG();
 }

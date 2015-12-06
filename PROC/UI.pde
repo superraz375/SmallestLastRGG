@@ -1,5 +1,3 @@
-
-
 VertexCountListener vertexCountListener;
 ThresholdListener thresholdListener;
 

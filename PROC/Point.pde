@@ -1,4 +1,4 @@
-class Point {
+class Point implements Comparable {
   float x, y, z;
   int key, degree;
   boolean visited;
@@ -14,5 +14,16 @@ class Point {
     list = new ArrayList();
     degree = 0;
     visited = false;
+  }
+  
+  int compareTo(Object o2) {
+    if(o2 == null) { 
+      println("o2 is null");
+     return 1; 
+    }
+    
+    Float x1 = x;
+    Float x2 = ((Point) o2).x;
+    return x1.compareTo(x2);
   }
 }

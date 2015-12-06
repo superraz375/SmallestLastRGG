@@ -36,6 +36,15 @@ void generateSquareRGG() {
   calculateDegrees();
 }
 
+
+
+void sortPoints() {
+ Arrays.sort(graph); //<>//
+ for (int i = 0; i < VERTEX_COUNT; i++) {
+   graph[i].key = i;
+ }
+}
+
 void createSquarePoints() {
   for (int i = 0; i < VERTEX_COUNT; i++) {
     float x = random(-1, 1) * r;
@@ -45,6 +54,7 @@ void createSquarePoints() {
     graph[i] = p;
     degreeList[i] = new ArrayList();
   }
+  sortPoints();
 }
 
 void createDiskPoints() {
@@ -54,6 +64,7 @@ void createDiskPoints() {
     graph[i] = p;
     degreeList[i] = new ArrayList();
   }
+  sortPoints();
 }
 // Generate random sphere points
 void createSpherePoints() {
@@ -61,14 +72,34 @@ void createSpherePoints() {
     graph[i] = randomSpherePoint(r, i);
     degreeList[i] = new ArrayList();
   }
+  sortPoints();
 }
 
 // Connect RGG nodes within the threshold
 void connectRGGNodes() {
 
-  // TODO: See if there is a more efficient algorithm to scan for RGG links.
-  // E.G. Scanning method from Unit Square.
+  connectLinearScan();
+  //connectBruteForce(); 
+}
 
+void connectLinearScan() {
+  
+  for (int i = 0; i < VERTEX_COUNT; i++) {
+    for (int j = i + 1; j < VERTEX_COUNT; j++) {
+      
+      if(abs(graph[j].x - graph[i].x) > RGG_THRESHOLD * r) {
+       continue; 
+      }
+      
+      if (dist(graph[i], graph[j]) < ADJUSTED_RGG_THRESHOLD_SQUARED) {
+        graph[i].list.add(graph[j]);
+        graph[j].list.add(graph[i]);
+      }
+    }
+  }
+}
+
+void connectBruteForce() {
   for (int i = 0; i < VERTEX_COUNT; i++) {
     for (int j = i + 1; j < VERTEX_COUNT; j++) {
       if (dist(graph[i], graph[j]) < ADJUSTED_RGG_THRESHOLD_SQUARED) {

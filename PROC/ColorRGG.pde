@@ -32,6 +32,10 @@ void drawColoredRGG() {
   } else {
     drawBipartiteColors();
   }
+  
+  if(highlightMaxCoverageArea && maxComponentPoint != null) {
+     drawCoverageArea();
+  }
 }
 
 void drawBipartiteColors() {
@@ -91,6 +95,8 @@ void calculateBipartiteColorNodes() {
   strokeWeight(nodeSize);
 
   for (int j = 0; j < VERTEX_COUNT; j++) {
+    graph[j].covered = false;
+    
     if (cs[aIndex] == records[j].point.c) {
       stroke(records[j].point.c);
       point(records[j].point, scaleFactor);
@@ -139,18 +145,30 @@ void calculateBipartiteColorNodes() {
 void drawAllColors() {
 
   strokeWeight(nodeSize);
-  if (needsToUpdateColorNodes) {
+  
+  if(all) {
+    println("alll");
+    drawAllColorNodes();
+  } else if (needsToUpdateColorNodes) {
     calculateAllColorNodes();
   } else {
-    drawLoadedAllColorNodes();
+    drawSingleColorNodes();
   }
   stroke(strokeColor);
 }
 
-void drawLoadedAllColorNodes() {
+void drawSingleColorNodes() {
   for (int i = 0; i < aList.size(); i++) {
     stroke(aList.get(i).point.c);
     point(aList.get(i).point, scaleFactor);
+  }
+  
+}
+
+void drawAllColorNodes() {
+for (int i = 0; i < VERTEX_COUNT; i++) {
+    stroke(graph[i].c);
+    point(graph[i], scaleFactor);
   }
 }
 
@@ -165,11 +183,22 @@ void calculateAllColorNodes() {
     }
   }
   for (int i = 0; i < VERTEX_COUNT; i++) {
-    if (all || cs[aIndex] == records[i].point.c) {
+    if (cs[aIndex] == records[i].point.c) {
       stroke(records[i].point.c);
       point(records[i].point, scaleFactor);
       aList.add(records[i]);
     }
   }
   needsToUpdateColorNodes = false;
+}
+
+void drawCoverageArea() {
+  for (int j = 0; j < aList.size(); j++) {
+    aList.get(j).point.visited = false;
+  }
+  for (int j = 0; j < bList.size(); j++) {
+    bList.get(j).point.visited = false;
+  }
+  
+  dfs(maxComponentPoint, true); 
 }

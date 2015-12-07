@@ -6,21 +6,21 @@ void drawStage1Text() {
   text("Progress: " + (100 - (rIndex + 1.0) / VERTEX_COUNT * 100) + "%", 15, h+=20);
   text("Vertex count: " + (rIndex + 1), 15, h+=20);
   text("Edge count: " + (edgeCount), 15, h+=20);
-  
+
   h += 20;
-  
+
   text("Threshold: " + nf(RGG_THRESHOLD, 0, 3), 15, h+=20);
   text("Average Degree: " + nf(graphAverageDegree, 0, 2), 15, h+=20);
   text("Rotate: " + (rot && allow3DRotate ? "ON" : "OFF"), 15, h+=20);
   text("Processing: " + (isProcessing ? "ON" : "OFF"), 15, h+=20);
   text("Edge: " + (showEdges ? "ON": "OFF"), 15, h+=20);
 
-  
+
   text("Highlight Min/Max Nodes: " + (highlightMinMaxDegreeNodes && maximum >= 0 ? "ON" : "OFF"), 15, h+=20);
   if (highlightMinMaxDegreeNodes && maximum >= 0) {
-    
+
     h += 20;
-    
+
     fill(0, 255, 0);
     text("Minimum degree: " + (minimum), 15, h+=20);
     text("Amount: " + (minAmount), 15, h+=20);
@@ -68,6 +68,7 @@ void drawControlText() {
 
   text("Key 'C': Color vertices", w, h+= 20);
   text("Key 'W': Color All/Single", w, h+= 20);
+  text("Key 'E': Show Maximum Coverage", w, h+= 20);
 
   h += 20;
 
@@ -75,40 +76,46 @@ void drawControlText() {
 }
 
 void drawColoredRGGText() {
+
+  int h = 0;
   textAlign(LEFT);
-  text("Rotate: " + (rot && allow3DRotate? "ON" : "OFF"), 15, 20);
-  text("All vertex: " +(all ? "ON" : "OFF"), 15, 40);
+  fill(0, 255, 0);
+  text("Rotate: " + (rot && allow3DRotate? "ON" : "OFF"), 15, h += 20);
+  text("All vertex: " +(all ? "ON" : "OFF"), 15, h += 20);
+  text("Show Max Coverage: " + (highlightMaxCoverageArea ? "ON" : "OFF"), 15, h+=15);
+  
   if (all) {
     fill(0, 255, 0);
-    text("Vertex count: " + VERTEX_COUNT, 15, 60);
-    text("Color count: " + (maximum + 1), 15, 80);
+    text("Vertex count: " + VERTEX_COUNT, 15, h += 20);
+    text("Color count: " + (maximum + 1), 15, h += 20);
   } else {
     fill(0, 0, 255);
-    text("Use horizontal arrows to switch color", 15, 60);
-    text("Use vertical arrows to switch color pairs", 15, 80);
+    text("Use horizontal arrows to switch color", 15, h += 20);
+    text("Use vertical arrows to switch color pairs", 15, h += 20);
     fill(0, 255, 0);
     if (showColorAsBipartite) {
-      text("Vertex count: " + (aList.size() + bList.size()), 15, 100);
-      text("Connected Vertex count: " + connectedVertexCount, 15, 120);
-      text("Edge number: " + bipartiteEdgeNumber, 15, 140);
-      text("Component number: " + component, 15, 160);
-      text("Face number: " + (bipartiteEdgeNumber - connectedVertexCount + 2 + component - 1), 15, 180);
-      text("Color number: " + (maximum + 1), 15, 200);
+      text("Vertex count: " + (aList.size() + bList.size()), 15, h += 20);
+      text("Connected Vertex count: " + connectedVertexCount, 15, h += 20);
+      text("Edge number: " + bipartiteEdgeNumber, 15, h += 20);
+      text("Component number: " + component, 15, h += 20);
+      text("Coverage: " + ((float)maxCoveredNodes / VERTEX_COUNT * 100) + "%", 15, h += 20);
+      text("Face number: " + (bipartiteEdgeNumber - connectedVertexCount + 2 + component - 1), 15, h += 20);
+      text("Color number: " + (maximum + 1), 15, h += 20);
 
       fill(cs[aPlace]);
-      text("Color" + (aPlace + 1), 15, 220);
+      text("Color" + (aPlace + 1), 15, h += 20);
 
       fill(255);
-      text("&", 66, 220);
+      text("&", 66, h);
 
       fill(cs[bPlace]);
-      text("Color " + (bPlace + 1), 78, 220);
+      text("Color " + (bPlace + 1), 78, h);
     } else {
-      text("Vertex number: " + (aList.size()), 15, 100);
-      text("Color number: " + (maximum + 1), 15, 120);
+      text("Vertex number: " + (aList.size()), 15, h += 20);
+      text("Color number: " + (maximum + 1), 15, h += 20);
 
       fill(cs[aPlace]);
-      text("Color " + (aPlace + 1), 15, 140);
+      text("Color " + (aPlace + 1), 15, h += 20);
     }
   }
 }

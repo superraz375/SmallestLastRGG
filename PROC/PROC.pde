@@ -4,7 +4,7 @@ import java.util.Arrays;
 int VERTEX_COUNT = 3000;
 float RGG_THRESHOLD = 0.125;
 int AVERAGE_DEGREE = 30;
-int PROCESSING_INTERVAL = 10;
+int PROCESSING_INTERVAL = 50;
 boolean USE_RGG_THRESHOLD = true;
 
 final float MIN_SCALE = 0.20;
@@ -24,7 +24,12 @@ int connectedVertexCount, edgeCount, bipartiteEdgeNumber;
 int aIndex = -1;
 int bIndex = -1;
 int aPlace = 0, bPlace = 0;
-boolean showColorAsBipartite = false, needsToUpdateColorNodes = false, needsToUpdateBipartiteColorNodes = false;
+boolean showColorAsBipartite = false;
+boolean needsToUpdateColorNodes = false, needsToUpdateBipartiteColorNodes = false;
+int maxCoveredNodes;
+boolean highlightMaxCoverageArea = false;
+Point maxComponentPoint;
+int coverageOpacity = 30;
 
 int component, maximum = 0, minimum = 0, minAmount, maxAmount;
 int rIndex = VERTEX_COUNT - 1;
@@ -71,6 +76,7 @@ void clearData() {
   currentPlotType = PlotType.NONE;
   aPlace = 0;
   bPlace = 0;
+  maxCoveredNodes = 0;
   cCount = 1;
   avg = 0;
   avgO = 0;
@@ -82,6 +88,7 @@ void clearData() {
   showColorAsBipartite = false;
   needsToUpdateColorNodes = false;
   needsToUpdateBipartiteColorNodes = false;
+  highlightMaxCoverageArea = false;
   finishedColoring = false;
   finishedPlotting = false;
   strokeColor = color(250, 250, 0);
@@ -98,7 +105,7 @@ void clearData() {
 void setup() {
 
   //fullScreen(P3D);
-  size(1500, 1000, P3D);
+  size(1200, 800, P3D);
 
   pixelDensity(2);
   r = (height - 120) / 2;

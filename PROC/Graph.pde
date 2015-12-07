@@ -94,6 +94,9 @@ void connectLinearScan() {
       if (dist(graph[i], graph[j]) < ADJUSTED_RGG_THRESHOLD_SQUARED) {
         graph[i].list.add(graph[j]);
         graph[j].list.add(graph[i]);
+        
+        graph[i].coverageList.add(graph[j]);
+        graph[j].coverageList.add(graph[i]);
       }
     }
   }
@@ -105,6 +108,9 @@ void connectBruteForce() {
       if (dist(graph[i], graph[j]) < ADJUSTED_RGG_THRESHOLD_SQUARED) {
         graph[i].list.add(graph[j]);
         graph[j].list.add(graph[i]);
+        
+        graph[i].coverageList.add(graph[j]);
+        graph[j].coverageList.add(graph[i]);
       }
     }
   }
@@ -197,19 +203,64 @@ int binarySearch(ArrayList < Point > list, int key, int imin, int imax) {
   return -1;
 }
 
-void dfs(Point point) {
+void dfs(Point point, boolean drawCoverage) {
   point.visited = true;
-  connectedVertexCount++;
+  
+  
+  if(drawCoverage) {
+    ellipseMode(RADIUS);
+    strokeWeight(0);
+    fill(0,150,00, coverageOpacity);
+    if(currentShape == GraphShape.SPHERE) {
+      
+      pushMatrix();
+      translate(point.x*scaleFactor,point.y*scaleFactor,point.z*scaleFactor);
+      sphereDetail(15);
+      sphere(RGG_THRESHOLD*r*scaleFactor);
+      popMatrix();
+      //ellipse(point.x*scaleFactor, point.y*scaleFactor, RGG_THRESHOLD*r*scaleFactor, RGG_THRESHOLD*r*scaleFactor);
+      //ellipse(point.y*scaleFactor, point.z*scaleFactor, RGG_THRESHOLD*r*scaleFactor, RGG_THRESHOLD*r*scaleFactor);
+      //ellipse(point.z*scaleFactor, point.x*scaleFactor, RGG_THRESHOLD*r*scaleFactor, RGG_THRESHOLD*r*scaleFactor);
+    } else {
+      ellipse(point.x*scaleFactor, point.y*scaleFactor, RGG_THRESHOLD*r*scaleFactor, RGG_THRESHOLD*r*scaleFactor);
+    }
+  } else {
+    connectedVertexCount++;
+  }
+  
   for (int i = 0; i < point.list.size(); i++) {
     if (!point.list.get(i).visited) {
-      dfs(point.list.get(i));
+      dfs(point.list.get(i), drawCoverage);
     }
   }
+}
+
+
+
+int coverageDfs(Point point, int coverageCount) {
+  point.covered = true;
+  coverageCount++;
+  for (int i = 0; i < point.coverageList.size(); i++) {
+    Point p = point.coverageList.get(i); 
+    if (!p.covered) {
+      if(p.c == cs[aIndex] || p.c == cs[bIndex]) {
+      coverageCount = coverageDfs(point.coverageList.get(i), coverageCount);
+      } else {
+        p.covered = true;
+        coverageCount++;
+      }
+    }
+  }
+  
+  return coverageCount;
 }
 
 void calculateComponents(ArrayList < Point > list) {
   connectedVertexCount = 0;
   component = 0;
+  maxCoveredNodes = 0;
+  
+  
   boolean end = false;
   while (!end) {
     end = true;
@@ -217,7 +268,12 @@ void calculateComponents(ArrayList < Point > list) {
       if (!list.get(i).visited) {
         component++;
         end = false;
-        dfs(list.get(i));
+        dfs(list.get(i), false);
+        int coveredNodes = coverageDfs(graph[list.get(i).key], 0);
+        if(coveredNodes > maxCoveredNodes) {
+          maxCoveredNodes = coveredNodes;
+          maxComponentPoint = list.get(i);
+        }
         break;
       }
     }

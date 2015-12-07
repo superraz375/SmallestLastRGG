@@ -20,7 +20,12 @@ void setupUI() {
     .setPosition(20, h += 20)
     .setRange(1, 200)
     ;
-
+    
+    cp5.addSlider("coverageOpacity")
+    .setPosition(20, h += 20)
+    .setRange(1, 100)
+    ;
+    
   cp5.addSlider("VERTEX_COUNT")
     .setPosition(20, h += 20)
     .setRange(1, 50000)
@@ -43,6 +48,8 @@ void setupUI() {
     .setValue(true)
     .setMode(ControlP5.SWITCH)
     ;
+    
+    
 
 
   vertexCountListener = new VertexCountListener();

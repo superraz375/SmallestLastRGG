@@ -43,7 +43,7 @@ void keyPressed() {
     // PLOT
     currentStatus = GraphStage.PLOT;
     currentPlotType = PlotType.REMAINING_DEGREE;
-  } else if (key == 'c' || key == 'C') {
+  } else if ((key == 'c' || key == 'C') && finishedPlotting) {
     needsToUpdateBipartiteColorNodes = false;
     needsToUpdateColorNodes = true;
     currentStatus = GraphStage.COLOR_GRAPH;
@@ -92,6 +92,12 @@ void keyPressed() {
         all = true;
       }
     }
+  } else if (key == 'e' || key == 'E') {
+    // Show coverage
+    if (finishedColoring && maxComponentPoint != null) {
+      highlightMaxCoverageArea = !highlightMaxCoverageArea;
+    }
+    
   } else if (key == CODED) {
     if (!all) {
       if (keyCode == RIGHT) {

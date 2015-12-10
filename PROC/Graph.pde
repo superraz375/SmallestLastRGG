@@ -40,7 +40,7 @@ void generateSquareRGG() {
 
 void sortPoints() {
  
-  //Arrays.sort(graph); //<>//
+  Arrays.sort(graph); //<>//
  
  for (int i = 0; i < VERTEX_COUNT; i++) {
    graph[i].key = i;

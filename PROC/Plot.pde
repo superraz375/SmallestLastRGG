@@ -90,6 +90,13 @@ void plotOriginalDegree() {
   strokeWeight(1);
 
   for (int i = 0; i < VERTEX_COUNT - 1; i++) {
+
+    strokeWeight(3);
+
+    point(30 + i * wd, 
+      hp - hd * records[i].point.degree);
+
+    strokeWeight(0.25);
     line(
       30 + i * wd, 
       hp - hd * records[i].point.degree, 
@@ -140,8 +147,8 @@ void plotRemainingDegree() {
 
       strokeWeight(3);
       point(30 + i * wd, hp - hd * records[i].degree);
-        
-        strokeWeight(0.25);
+
+      strokeWeight(0.25);
       line(
         30 + i * wd, 
         hp - hd * records[i].degree, 
@@ -165,7 +172,7 @@ void saveRemainingDegreeTable() {
   terminalClique = 0;
 
   println("Cliques");
-  
+
   for (int i = 0; i < VERTEX_COUNT - 1; i++) {
     TableRow newRow = table.addRow();
     newRow.setInt("ID", i);
@@ -177,13 +184,13 @@ void saveRemainingDegreeTable() {
     if (deg == cliqueCounter) {
       cliqueCounter++;
     } else {
-      if(cliqueCounter > terminalClique) {
+      if (cliqueCounter > terminalClique) {
         terminalClique = cliqueCounter;
       }
       cliqueCounter = 0;
     }
   }
-  
+
   saveTable(table, "data/" + currentShape + "remainingDegree.csv");
 }
 

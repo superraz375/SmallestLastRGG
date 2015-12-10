@@ -6,8 +6,11 @@ float p4;
 float p2;
 
 void drawPlot() {
+
+  cp5.hide();
+
   hp = height - 30;
-  ph = hp + 5;
+  ph = width - 30;
   wd = (width - 60.0) / VERTEX_COUNT;
   ht = height - 10;
   p2 = (30 + width /2) / 2;
@@ -20,8 +23,6 @@ void drawPlot() {
   if (currentPlotType == PlotType.REMAINING_DEGREE || currentPlotType == PlotType.ALL) {  
     plotRemainingDegree();
   }
-
-  text("RRR" + round(avg), 24, ph - avg * hd);
 
   if (currentPlotType == PlotType.AVERAGE_DEGREE || currentPlotType == PlotType.ALL) {
     plotAverageDegree();
@@ -41,26 +42,34 @@ void drawPlotBorder() {
   line(width/2, ph, width/2, hp);
   line(p4, ph, p4, hp);
   fill(strokeColor);
-  text(records[0].point.key, 45, ht);
+
+  // First Point
+  text(graph[0].key, 45, ht);
+
   if (VERTEX_COUNT > 1) {
-    text(records[VERTEX_COUNT - 1].point.key, width - 15, ht);
+    // Last point
+    text(graph[VERTEX_COUNT - 1].key, width - 15, ht);
   }
 
+  // Middle Point
   if (VERTEX_COUNT > 2) {
-    text(records[VERTEX_COUNT / 2].point.key, width/2 + 15, ht);
+    text(graph[VERTEX_COUNT / 2].key, width/2 + 15, ht);
   }
 
+  // 3/4 point
   if (VERTEX_COUNT > 4) {
-    text(records[VERTEX_COUNT * 3 / 4].point.key, p2 + 15, ht);
+    text(graph[VERTEX_COUNT / 4].key, p2 + 15, ht);
   }
 
-  text(records[VERTEX_COUNT / 4].point.key, p4 + 15, ht);
+  // 1/4 point
+  text(graph[(VERTEX_COUNT * 3) / 4].key, p4 + 15, ht);
 
+  // O on Y-axis point
   text(0, 24, ph);
 }
 
 void plotOriginalDegree() {
-  
+
   if (turnOP) {
     for (int i = 0; i < VERTEX_COUNT; i++) {
       if (records[i].point.degree > oMax) {
@@ -72,27 +81,33 @@ void plotOriginalDegree() {
       avgO /= VERTEX_COUNT;
     }
   }
- 
+
   turnOP = false;
   stroke(255, 0, 255);
   strokeWeight(2);
   line(25, hp - avgO * hd, 30, hp - avgO * hd);
   line(25, hp - oMax * hd, 30, hp - oMax * hd);
   strokeWeight(1);
-  
+
   for (int i = 0; i < VERTEX_COUNT - 1; i++) {
-    line(30 + i * wd, hp - hd * records[i].point.degree, 30 + (i + 1) * wd, hp - hd * records[i + 1].point.degree);
+    line(
+      30 + i * wd, 
+      hp - hd * records[i].point.degree, 
+
+      30 + (i + 1) * wd, 
+      hp - hd * records[i + 1].point.degree);
   }
-  
+
   fill(255, 0, 255);
   text(oMax, 24, 35);
   text(round(avgO), 24, ph - avgO * hd);
 }
 
 void plotRemainingDegree() {
- 
+
   if (!turnOP) {
     if (!finishedPlotting) {
+
       for (int i = 0; i < VERTEX_COUNT; i++) {
         if (records[i].degree > pMax) {
           pMax = records[i].degree;
@@ -110,6 +125,9 @@ void plotRemainingDegree() {
         cs[i] = temp;
       }
       finishedPlotting = true;
+
+
+      saveRemainingDegreeTable();
     }
 
     stroke(0, 255, 0);
@@ -117,21 +135,63 @@ void plotRemainingDegree() {
     line(25, hp - avg * hd, 30, hp - avg * hd);
     line(25, hp - pMax * hd, 30, hp - pMax * hd);
     strokeWeight(1);
-    
+
     for (int i = 0; i < VERTEX_COUNT - 1; i++) {
-      line(30 + i * wd, hp - hd * records[i].degree, 30 + (i + 1) * wd, hp - hd * records[i + 1].degree);
+
+      strokeWeight(3);
+      point(30 + i * wd, hp - hd * records[i].degree);
+        
+        strokeWeight(0.25);
+      line(
+        30 + i * wd, 
+        hp - hd * records[i].degree, 
+        30 + (i + 1) * wd, 
+        hp - hd * records[i + 1].degree);
     }
-    
+
     fill(0, 255, 0);
     text(pMax, 24, ph - pMax * hd);
   }
 }
 
+void saveRemainingDegreeTable() {
+  Table table = new Table();
+
+  table.addColumn("ID");
+  table.addColumn("Remaining Degree");
+
+
+  int cliqueCounter = 0;
+  terminalClique = 0;
+
+  println("Cliques");
+  
+  for (int i = 0; i < VERTEX_COUNT - 1; i++) {
+    TableRow newRow = table.addRow();
+    newRow.setInt("ID", i);
+    newRow.setInt("Remaining Degree", records[i].degree);
+
+
+    int deg = records[i].degree;
+
+    if (deg == cliqueCounter) {
+      cliqueCounter++;
+    } else {
+      if(cliqueCounter > terminalClique) {
+        terminalClique = cliqueCounter;
+      }
+      cliqueCounter = 0;
+    }
+  }
+  
+  saveTable(table, "data/" + currentShape + "remainingDegree.csv");
+}
+
 void plotAverageDegree() {
- 
+
   if (turnWP) {
     for (int i = 0; i < VERTEX_COUNT; i++) {
-     
+
       if (records[i].avgDegree > wMax) {
         wMax = records[i].avgDegree;
       }
@@ -141,17 +201,17 @@ void plotAverageDegree() {
       turnWP = false;
     }
   }
-  
+
   stroke(0, 0, 255);
   strokeWeight(2);
   line(25, hp - avgW * hd, 30, hp - avgW * hd);
   line(25, hp - wMax * hd, 30, hp - wMax * hd);
   strokeWeight(3);
- 
+
   for (int i = 0; i < VERTEX_COUNT - 1; i++) {
     line(30 + i * wd, hp - hd * records[i].avgDegree, 30 + (i + 1) * wd, hp - hd * records[i + 1].avgDegree);
   }
-  
+
   fill(0, 0, 255);
   text(round(wMax), 24, ph - wMax * hd);
 }

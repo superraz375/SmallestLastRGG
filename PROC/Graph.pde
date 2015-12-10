@@ -39,7 +39,9 @@ void generateSquareRGG() {
 
 
 void sortPoints() {
- Arrays.sort(graph); //<>//
+ 
+  //Arrays.sort(graph); //<>//
+ 
  for (int i = 0; i < VERTEX_COUNT; i++) {
    graph[i].key = i;
  }
@@ -218,9 +220,6 @@ void dfs(Point point, boolean drawCoverage) {
       sphereDetail(15);
       sphere(RGG_THRESHOLD*r*scaleFactor);
       popMatrix();
-      //ellipse(point.x*scaleFactor, point.y*scaleFactor, RGG_THRESHOLD*r*scaleFactor, RGG_THRESHOLD*r*scaleFactor);
-      //ellipse(point.y*scaleFactor, point.z*scaleFactor, RGG_THRESHOLD*r*scaleFactor, RGG_THRESHOLD*r*scaleFactor);
-      //ellipse(point.z*scaleFactor, point.x*scaleFactor, RGG_THRESHOLD*r*scaleFactor, RGG_THRESHOLD*r*scaleFactor);
     } else {
       ellipse(point.x*scaleFactor, point.y*scaleFactor, RGG_THRESHOLD*r*scaleFactor, RGG_THRESHOLD*r*scaleFactor);
     }
@@ -307,6 +306,8 @@ void calculateRggThresholdByAverageDegree() {
 // Draw an outline for each graph
 void drawOutline() {
 
+  cp5.show();
+  
   strokeWeight(5);
 
   switch(currentShape) {

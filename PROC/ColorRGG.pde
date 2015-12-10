@@ -147,7 +147,6 @@ void drawAllColors() {
   strokeWeight(nodeSize);
   
   if(all) {
-    println("alll");
     drawAllColorNodes();
   } else if (needsToUpdateColorNodes) {
     calculateAllColorNodes();

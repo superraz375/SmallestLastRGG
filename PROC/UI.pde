@@ -49,8 +49,6 @@ void setupUI() {
     .setMode(ControlP5.SWITCH)
     ;
     
-    
-
 
   vertexCountListener = new VertexCountListener();
   thresholdListener = new ThresholdListener();

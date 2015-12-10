@@ -30,6 +30,7 @@ int maxCoveredNodes;
 boolean highlightMaxCoverageArea = false;
 Point maxComponentPoint;
 int coverageOpacity = 30;
+int terminalClique = 0;
 
 int component, maximum = 0, minimum = 0, minAmount, maxAmount;
 int rIndex = VERTEX_COUNT - 1;
@@ -83,6 +84,7 @@ void clearData() {
   avgW = 0;
   wAvg = 0;
   wMax = 0;
+  terminalClique = 0;
 
   isProcessing = false;
   showColorAsBipartite = false;

@@ -82,25 +82,20 @@ void drawColoredRGGText() {
   fill(0, 255, 0);
   text("Rotate: " + (rot && allow3DRotate? "ON" : "OFF"), 15, h += 20);
   text("All vertex: " +(all ? "ON" : "OFF"), 15, h += 20);
-  text("Show Max Coverage: " + (highlightMaxCoverageArea ? "ON" : "OFF"), 15, h+=15);
+  text("Show Max Coverage: " + (highlightMaxCoverageArea ? "ON" : "OFF"), 15, h+=20);
   
-  if (all) {
-    fill(0, 255, 0);
-    text("Vertex count: " + VERTEX_COUNT, 15, h += 20);
-    text("Color count: " + (maximum + 1), 15, h += 20);
-  } else {
-    fill(0, 0, 255);
-    text("Use horizontal arrows to switch color", 15, h += 20);
-    text("Use vertical arrows to switch color pairs", 15, h += 20);
-    fill(0, 255, 0);
+  text("Vertex count: " + VERTEX_COUNT, 15, h += 20);
+  text("Color count: " + (maximum + 1), 15, h += 20);
+  text("Terminal Clique: " + terminalClique, 15, h+=20);
+  
+  if (!all) {
     if (showColorAsBipartite) {
-      text("Vertex count: " + (aList.size() + bList.size()), 15, h += 20);
       text("Connected Vertex count: " + connectedVertexCount, 15, h += 20);
       text("Edge number: " + bipartiteEdgeNumber, 15, h += 20);
       text("Component number: " + component, 15, h += 20);
       text("Coverage: " + ((float)maxCoveredNodes / VERTEX_COUNT * 100) + "%", 15, h += 20);
       text("Face number: " + (bipartiteEdgeNumber - connectedVertexCount + 2 + component - 1), 15, h += 20);
-      text("Color number: " + (maximum + 1), 15, h += 20);
+
 
       fill(cs[aPlace]);
       text("Color" + (aPlace + 1), 15, h += 20);
@@ -110,10 +105,8 @@ void drawColoredRGGText() {
 
       fill(cs[bPlace]);
       text("Color " + (bPlace + 1), 78, h);
+      
     } else {
-      text("Vertex number: " + (aList.size()), 15, h += 20);
-      text("Color number: " + (maximum + 1), 15, h += 20);
-
       fill(cs[aPlace]);
       text("Color " + (aPlace + 1), 15, h += 20);
     }

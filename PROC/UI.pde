@@ -28,17 +28,17 @@ void setupUI() {
     
   cp5.addSlider("VERTEX_COUNT")
     .setPosition(20, h += 20)
-    .setRange(1, 50000)
+    .setRange(1, 64000)
     ;
 
   cp5.addSlider("RGG_THRESHOLD")
     .setPosition(20, h += 20)
-    .setRange(0.01, 0.5)
+    .setRange(0.01, 2)
     ;
 
   cp5.addSlider("AVERAGE_DEGREE")
     .setPosition(20, h += 20)
-    .setRange(1, 50)
+    .setRange(1, 120)
     ;
 
 

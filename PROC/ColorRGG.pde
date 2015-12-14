@@ -9,10 +9,13 @@ void colorNodes() {
       }
     }
     records[i].point.c = cs[n];
+    colorCount[n] += 1;
+    
     if (n > maximum) {
       maximum = n;
     }
   }
+  saveColorDistribution();
   finishedColoring = true;
 }
 

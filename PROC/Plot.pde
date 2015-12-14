@@ -134,7 +134,7 @@ void plotRemainingDegree() {
       finishedPlotting = true;
 
 
-      saveRemainingDegreeTable();
+      saveDegreeTable();
     }
 
     stroke(0, 255, 0);
@@ -159,39 +159,6 @@ void plotRemainingDegree() {
     fill(0, 255, 0);
     text(pMax, 24, ph - pMax * hd);
   }
-}
-
-void saveRemainingDegreeTable() {
-  Table table = new Table();
-
-  table.addColumn("ID");
-  table.addColumn("Remaining Degree");
-
-
-  int cliqueCounter = 0;
-  terminalClique = 0;
-
-  println("Cliques");
-
-  for (int i = 0; i < VERTEX_COUNT - 1; i++) {
-    TableRow newRow = table.addRow();
-    newRow.setInt("ID", i);
-    newRow.setInt("Remaining Degree", records[i].degree);
-
-
-    int deg = records[i].degree;
-
-    if (deg == cliqueCounter) {
-      cliqueCounter++;
-    } else {
-      if (cliqueCounter > terminalClique) {
-        terminalClique = cliqueCounter;
-      }
-      cliqueCounter = 0;
-    }
-  }
-
-  saveTable(table, "data/" + currentShape + "remainingDegree.csv");
 }
 
 void plotAverageDegree() {
@@ -225,7 +192,8 @@ void plotAverageDegree() {
 
 void generateColors(int total) {
   cs = new color[total];
-
+  colorCount = new int[total];
+  
   for (int i = 0; i < total; i++) {
     cs[i] = COLORS[i % COLORS.length];
   }

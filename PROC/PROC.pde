@@ -1,10 +1,10 @@
 import controlP5.*;
 import java.util.Arrays;
 
-int VERTEX_COUNT = 3000;
-float RGG_THRESHOLD = 0.125;
+int VERTEX_COUNT = 4000;
+float RGG_THRESHOLD = .0825;
 int AVERAGE_DEGREE = 30;
-int PROCESSING_INTERVAL = 50;
+int PROCESSING_INTERVAL = 10;
 boolean USE_RGG_THRESHOLD = true;
 
 final float MIN_SCALE = 0.20;
@@ -31,6 +31,8 @@ boolean highlightMaxCoverageArea = false;
 Point maxComponentPoint;
 int coverageOpacity = 30;
 int terminalClique = 0;
+boolean savedDegreeDistribution = false;
+int maxMinDegree = 0;
 
 int component, maximum = 0, minimum = 0, minAmount, maxAmount;
 int rIndex = VERTEX_COUNT - 1;
@@ -57,6 +59,7 @@ color strokeColor = color(250, 250, 0);
 Point[] graph = new Point[VERTEX_COUNT];
 Record[] records = new Record[VERTEX_COUNT];
 color[] cs;
+int[] colorCount;
 ArrayList < Point > [] degreeList = new ArrayList[VERTEX_COUNT];
 ArrayList < Record > aList = new ArrayList();
 ArrayList < Record > bList = new ArrayList();
@@ -84,7 +87,9 @@ void clearData() {
   avgW = 0;
   wAvg = 0;
   wMax = 0;
+  maxMinDegree = 0;
   terminalClique = 0;
+
 
   isProcessing = false;
   showColorAsBipartite = false;
@@ -93,6 +98,7 @@ void clearData() {
   highlightMaxCoverageArea = false;
   finishedColoring = false;
   finishedPlotting = false;
+  savedDegreeDistribution = false;
   strokeColor = color(250, 250, 0);
   all = true;
 
@@ -102,12 +108,15 @@ void clearData() {
   aList = new ArrayList();
   bList = new ArrayList();
   conList = new ArrayList();
+  
+  println(graph.length);
+  println(records.length);
 }
 // Setup the program for running
 void setup() {
 
-  //fullScreen(P3D);
-  size(1200, 800, P3D);
+  fullScreen(P3D);
+  //size(1200, 800, P3D);
 
   pixelDensity(2);
   r = (height - 120) / 2;

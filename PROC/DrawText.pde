@@ -87,6 +87,7 @@ void drawColoredRGGText() {
   text("Vertex count: " + VERTEX_COUNT, 15, h += 20);
   text("Color count: " + (maximum + 1), 15, h += 20);
   text("Terminal Clique: " + terminalClique, 15, h+=20);
+  text("Max-min Degree: " + maxMinDegree, 15, h+=20);
   
   if (!all) {
     if (showColorAsBipartite) {

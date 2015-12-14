@@ -25,12 +25,19 @@ void drawInitialRGG() {
     markMaxDegreeNodes();
     stroke(strokeColor);
   }
+  
+  if(!savedDegreeDistribution) {
+   saveDegreeDistribution();
+   savedDegreeDistribution = true;
+  }
 
   // Do the next SMALLEST LAST ORDERING removal step
   if (isProcessing) {
     performSmallestLastOrdering();
   }
 }
+
+boolean b = false;
 
 void drawPointsAndEdgesByDegree() {
   for (int i = 0; i <= maximum; i++) {
@@ -46,6 +53,7 @@ void drawPointsAndEdgesByDegree() {
 
         strokeWeight(nodeSize);
         point(pointA, scaleFactor);
+        //text(pointA.key, pointA.x * scaleFactor, pointA.y * scaleFactor);
 
         strokeWeight(edgeWidth);
         for (int k = 0; k < i; k++) {
@@ -92,7 +100,7 @@ void markMaxDegreeNodes() {
   if (maximum >= 0) {
     for (int j = 0; j < degreeList[maximum].size(); j++) {
       Point pointA = degreeList[maximum].get(j);
-      stroke(255, 0, 255);
+      stroke(255, 0, 0);
       strokeWeight(nodeSize);
       point(pointA, scaleFactor);
       strokeWeight(edgeWidth);
@@ -116,6 +124,11 @@ void performSmallestLastOrdering() {
     while (minimum <= maximum && degreeList[minimum].isEmpty()) {
       minimum++;
     }
+    
+    
+    if(minimum > maxMinDegree) {
+     maxMinDegree = minimum; 
+    }
 
 
     // Remove the node with the smallest degree [SMALLEST LAST]
@@ -136,6 +149,8 @@ void performSmallestLastOrdering() {
         degreeList[degree - 1].add(graph[index]);
       }
     }
+    
+    //captureScreenshot();
 
     // Re-adjust the maximum degree index
     while (maximum >= 0 && degreeList[maximum].isEmpty()) {
